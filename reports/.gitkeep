@@ -1,0 +1,5 @@
+# Reports directory
+# This directory contains:
+# - qa_report.md: Pipeline QA report (generated)
+# - pipeline.log: Execution log
+# - figures/: Generated visualizations

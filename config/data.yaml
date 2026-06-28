@@ -1,0 +1,151 @@
+# =============================================================================
+# Data pipeline configuration
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Asset universe
+# -----------------------------------------------------------------------------
+universe:
+  name: "US_ETF_BASKET"
+  currency: "USD"
+  exchange: "NYSE"
+
+  assets:
+    SPY:
+      description: "S&P 500 ETF - US equities"
+      approx_inception: "1993-01-01"
+    TLT:
+      description: "iShares 20+ Year Treasury Bond ETF - Long US Treasuries"
+      approx_inception: "2002-07-01"
+    LQD:
+      description: "iShares iBoxx Investment Grade Corporate Bond ETF"
+      approx_inception: "2002-07-01"
+    GLD:
+      description: "SPDR Gold Shares - Gold"
+      approx_inception: "2004-11-01"
+    DBC:
+      description: "Invesco DB Commodity Index Tracking Fund - Broad commodities"
+      approx_inception: "2006-02-01"
+    BIL:
+      description: "SPDR Bloomberg 1-3 Month T-Bill ETF - Cash proxy"
+      approx_inception: "2007-05-01"
+
+# -----------------------------------------------------------------------------
+# Date range
+# -----------------------------------------------------------------------------
+dates:
+  # Fetch floor for both yfinance and FRED. When a ticker's inception is later
+  # than this, yfinance just returns from inception, so 2004 effectively means
+  # "as early as available". The common coverage period is worked out after
+  # ingest and trims the panel to the latest inception (BIL, around May 2007).
+  start_date: "2004-01-01" # null only returns about a month, so a floor is needed
+  end_date: null    # null = latest available date
+
+  # BIL is the binding constraint (around May 2007), so the full six-asset panel
+  # is only complete from mid-2007. That still covers 2008, 2020, and 2022.
+
+# -----------------------------------------------------------------------------
+# Data sources
+# -----------------------------------------------------------------------------
+sources:
+  prices:
+    provider: "yfinance"
+    # auto_adjust=True returns prices adjusted for splits and dividends
+    auto_adjust: true
+    # Which yfinance price column to use
+    price_column: "Close"
+
+  macro:
+    provider: "fred"
+    # Optional for pandas-datareader; fredapi would require it
+    api_key_env_var: "FRED_API_KEY"
+
+    series:
+      VIXCLS:
+        description: "CBOE VIX - Implied volatility (fear gauge)"
+        frequency: "daily"
+      T10Y2Y:
+        description: "10Y-2Y Treasury term spread - Recession/term-structure signal"
+        frequency: "daily"
+      BAA10Y:
+        description: "Baa corporate - 10Y Treasury spread - Credit spread"
+        frequency: "daily"
+      NFCI:
+        description: "Chicago Fed National Financial Conditions Index"
+        frequency: "weekly"
+        optional: true  # May not be critical for all analyses
+
+# -----------------------------------------------------------------------------
+# Calendar and alignment
+# -----------------------------------------------------------------------------
+calendar:
+  # Master calendar the panels align to
+  exchange: "NYSE"
+
+  # How many trading days a macro value may be carried forward
+  macro_max_staleness_days: 5
+
+  # Prices are not forward-filled; a gap means a halt or missing data
+  price_forward_fill: false
+
+# -----------------------------------------------------------------------------
+# Features
+# -----------------------------------------------------------------------------
+features:
+  # Rolling window lengths, in trading days
+  windows:
+    volatility_short: 21   # ~1 month
+    volatility_long: 63    # ~3 months
+    correlation: 63        # ~3 months
+    drawdown: 252          # ~1 year lookback for the peak
+
+  # Annualisation factor for volatility
+  trading_days_per_year: 252
+
+  # Assets excluded from the correlation features only. A near-zero-variance
+  # cash proxy (BIL) makes rolling correlations numerically unstable and would
+  # pollute avg_corr; BIL is retained for every other feature and for allocation.
+  correlation_exclude: ["BIL"]
+
+  # Minimum observations required before computing rolling statistics
+  min_periods:
+    volatility: 15   # At least 15 days for 21-day window
+    correlation: 30  # At least 30 days for 63-day correlation
+
+# -----------------------------------------------------------------------------
+# Output
+# -----------------------------------------------------------------------------
+output:
+  processed_dir: "data/processed"
+  interim_dir: "data/interim"
+  raw_dir: "data/raw"
+  reports_dir: "reports"
+  figures_dir: "reports/figures"
+
+  files:
+    features: "features.parquet"
+    prices: "prices.parquet"
+    aligned_panel: "aligned_panel.parquet"
+    data_dictionary: "data_dictionary.md"
+    qa_report: "qa_report.md"
+
+# -----------------------------------------------------------------------------
+# Caching
+# -----------------------------------------------------------------------------
+cache:
+  enabled: true
+  # Raw downloads are cached with a fetch-date stamp, named
+  # {ticker}_{YYYYMMDD}.parquet for prices and {series_id}_{YYYYMMDD}.parquet for FRED
+
+  # If true, reuse cached data even when it is older than today.
+  # Set false (or pass --force-refresh) to re-download.
+  use_stale_cache: true
+
+# -----------------------------------------------------------------------------
+# Logging
+# -----------------------------------------------------------------------------
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  # Written under reports/
+  file: "reports/pipeline.log"

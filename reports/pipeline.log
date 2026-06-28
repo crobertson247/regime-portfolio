@@ -1,0 +1,366 @@
+2026-06-26 11:56:17,214 - regime.data.pipeline - INFO - ============================================================
+2026-06-26 11:56:17,215 - regime.data.pipeline - INFO - Starting regime-portfolio data pipeline
+2026-06-26 11:56:17,215 - regime.data.pipeline - INFO - ============================================================
+2026-06-26 11:56:17,221 - regime.data.pipeline - INFO - Starting data ingestion...
+2026-06-26 11:56:17,223 - regime.data.ingest - INFO - Starting price data ingestion...
+2026-06-26 11:56:25,016 - regime.data.ingest - INFO - Fetched SPY: 22 rows from 2026-05-26 to 2026-06-25
+2026-06-26 11:56:25,404 - regime.data.ingest - INFO - Cached SPY data to SPY_20260626.parquet
+2026-06-26 11:56:25,956 - regime.data.ingest - INFO - Fetched TLT: 22 rows from 2026-05-26 to 2026-06-25
+2026-06-26 11:56:25,965 - regime.data.ingest - INFO - Cached TLT data to TLT_20260626.parquet
+2026-06-26 11:56:26,600 - regime.data.ingest - INFO - Fetched LQD: 22 rows from 2026-05-26 to 2026-06-25
+2026-06-26 11:56:26,608 - regime.data.ingest - INFO - Cached LQD data to LQD_20260626.parquet
+2026-06-26 11:56:27,159 - regime.data.ingest - INFO - Fetched GLD: 22 rows from 2026-05-26 to 2026-06-25
+2026-06-26 11:56:27,168 - regime.data.ingest - INFO - Cached GLD data to GLD_20260626.parquet
+2026-06-26 11:56:27,899 - regime.data.ingest - INFO - Fetched DBC: 22 rows from 2026-05-26 to 2026-06-25
+2026-06-26 11:56:27,907 - regime.data.ingest - INFO - Cached DBC data to DBC_20260626.parquet
+2026-06-26 11:56:28,480 - regime.data.ingest - INFO - Fetched BIL: 22 rows from 2026-05-26 to 2026-06-25
+2026-06-26 11:56:28,490 - regime.data.ingest - INFO - Cached BIL data to BIL_20260626.parquet
+2026-06-26 11:56:28,491 - regime.data.ingest - INFO - Completed price data ingestion in 11.27s
+2026-06-26 11:56:28,492 - regime.data.ingest - INFO - Starting macro data ingestion...
+2026-06-26 11:56:29,962 - regime.data.ingest - INFO - Fetched VIXCLS: 1303 rows from 2021-06-28 to 2026-06-24
+2026-06-26 11:56:29,968 - regime.data.ingest - INFO - Cached VIXCLS data to VIXCLS_20260626.parquet
+2026-06-26 11:56:32,263 - regime.data.ingest - INFO - Fetched T10Y2Y: 1304 rows from 2021-06-28 to 2026-06-25
+2026-06-26 11:56:32,269 - regime.data.ingest - INFO - Cached T10Y2Y data to T10Y2Y_20260626.parquet
+2026-06-26 11:56:36,097 - regime.data.ingest - INFO - Fetched BAA10Y: 1303 rows from 2021-06-28 to 2026-06-24
+2026-06-26 11:56:36,104 - regime.data.ingest - INFO - Cached BAA10Y data to BAA10Y_20260626.parquet
+2026-06-26 11:56:37,257 - regime.data.ingest - INFO - Fetched NFCI: 260 rows from 2021-07-02 to 2026-06-19
+2026-06-26 11:56:37,262 - regime.data.ingest - INFO - Cached NFCI data to NFCI_20260626.parquet
+2026-06-26 11:56:37,263 - regime.data.ingest - INFO - Completed macro data ingestion in 8.77s
+2026-06-26 11:56:37,263 - regime.data.pipeline - INFO - Completed data ingestion in 20.04s
+2026-06-26 11:56:37,263 - regime.data.pipeline - INFO - Starting data validation...
+2026-06-26 11:56:37,271 - regime.data.pipeline - WARNING - VIXCLS: 19 missing values (1.5%)
+2026-06-26 11:56:37,272 - regime.data.pipeline - WARNING - T10Y2Y: 56 missing values (4.3%)
+2026-06-26 11:56:37,273 - regime.data.pipeline - WARNING - BAA10Y: 59 missing values (4.5%)
+2026-06-26 11:56:37,274 - regime.data.pipeline - INFO - Completed data validation in 0.01s
+2026-06-26 11:56:37,274 - regime.data.pipeline - INFO - Starting coverage analysis...
+2026-06-26 11:56:37,275 - regime.data.pipeline - INFO - Per-asset coverage:
+2026-06-26 11:56:37,276 - regime.data.calendars - INFO -   SPY: 2026-05-26 to 2026-06-25 (30 days)
+2026-06-26 11:56:37,277 - regime.data.calendars - INFO -   TLT: 2026-05-26 to 2026-06-25 (30 days)
+2026-06-26 11:56:37,278 - regime.data.calendars - INFO -   LQD: 2026-05-26 to 2026-06-25 (30 days)
+2026-06-26 11:56:37,279 - regime.data.calendars - INFO -   GLD: 2026-05-26 to 2026-06-25 (30 days)
+2026-06-26 11:56:37,280 - regime.data.calendars - INFO -   DBC: 2026-05-26 to 2026-06-25 (30 days)
+2026-06-26 11:56:37,281 - regime.data.calendars - INFO -   BIL: 2026-05-26 to 2026-06-25 (30 days)
+2026-06-26 11:56:37,282 - regime.data.calendars - INFO -   VIXCLS: 2021-06-28 to 2026-06-24
+2026-06-26 11:56:37,283 - regime.data.calendars - INFO -   T10Y2Y: 2021-06-28 to 2026-06-25
+2026-06-26 11:56:37,284 - regime.data.calendars - INFO -   BAA10Y: 2021-06-28 to 2026-06-24
+2026-06-26 11:56:37,284 - regime.data.calendars - INFO -   NFCI: 2021-07-02 to 2026-06-19
+2026-06-26 11:56:37,285 - regime.data.calendars - INFO - Common coverage period: 2026-05-26 to 2026-06-25 (30 days)
+2026-06-26 11:56:37,285 - regime.data.pipeline - INFO - Completed coverage analysis in 0.01s
+2026-06-26 11:56:37,285 - regime.data.pipeline - INFO - Starting calendar alignment...
+2026-06-26 11:56:37,649 - regime.data.clean - INFO - Created price panel: 22 days x 6 assets
+2026-06-26 11:56:37,659 - regime.data.clean - INFO - Created macro panel: 22 days x 4 series
+2026-06-26 11:56:37,659 - regime.data.pipeline - INFO - Completed calendar alignment in 0.37s
+2026-06-26 11:56:37,659 - regime.data.pipeline - INFO - Starting feature computation...
+2026-06-26 11:56:37,660 - regime.data.features - INFO - Computing causal features...
+2026-06-26 11:56:37,660 - regime.data.features - INFO -   Computing log returns...
+2026-06-26 11:56:37,663 - regime.data.features - INFO -   Computing 21d volatility...
+2026-06-26 11:56:37,669 - regime.data.features - INFO -   Computing 63d volatility...
+2026-06-26 11:56:37,672 - regime.data.features - INFO -   Computing 63d pairwise correlations...
+2026-06-26 11:56:37,684 - regime.data.features - INFO -   Computing average correlation...
+2026-06-26 11:56:37,687 - regime.data.features - INFO -   Computing 252d drawdowns...
+2026-06-26 11:56:37,691 - regime.data.features - INFO -   Adding macro series...
+2026-06-26 11:56:37,696 - regime.data.features - INFO - Computed 39 features over 22 trading days
+2026-06-26 11:56:37,697 - regime.data.pipeline - INFO - Completed feature computation in 0.04s
+2026-06-26 11:56:37,697 - regime.data.pipeline - INFO - Starting final trimming...
+2026-06-26 11:56:37,702 - regime.data.pipeline - INFO - Trimmed to 21 rows starting 2026-05-27
+2026-06-26 11:56:37,702 - regime.data.pipeline - INFO - Completed final trimming in 0.00s
+2026-06-26 11:56:37,702 - regime.data.pipeline - INFO - Starting output generation...
+2026-06-26 11:56:37,718 - regime.data.pipeline - INFO - Wrote features to C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\features.parquet
+2026-06-26 11:56:37,742 - regime.data.pipeline - INFO - Wrote prices + simple returns to C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\prices.parquet
+2026-06-26 11:56:37,764 - regime.data.pipeline - ERROR - Failed output generation after 0.06s: list index out of range
+2026-06-26 12:02:27,232 - regime.data.pipeline - INFO - ============================================================
+2026-06-26 12:02:27,233 - regime.data.pipeline - INFO - Starting regime-portfolio data pipeline
+2026-06-26 12:02:27,233 - regime.data.pipeline - INFO - ============================================================
+2026-06-26 12:02:27,237 - regime.data.pipeline - INFO - Starting data ingestion...
+2026-06-26 12:02:27,238 - regime.data.ingest - INFO - Starting price data ingestion...
+2026-06-26 12:02:27,239 - regime.data.ingest - INFO - Using cached data for SPY: SPY_20260626.parquet
+2026-06-26 12:02:27,909 - regime.data.ingest - INFO - Using cached data for TLT: TLT_20260626.parquet
+2026-06-26 12:02:27,931 - regime.data.ingest - INFO - Using cached data for LQD: LQD_20260626.parquet
+2026-06-26 12:02:27,952 - regime.data.ingest - INFO - Using cached data for GLD: GLD_20260626.parquet
+2026-06-26 12:02:27,973 - regime.data.ingest - INFO - Using cached data for DBC: DBC_20260626.parquet
+2026-06-26 12:02:27,992 - regime.data.ingest - INFO - Using cached data for BIL: BIL_20260626.parquet
+2026-06-26 12:02:28,010 - regime.data.ingest - INFO - Completed price data ingestion in 0.77s
+2026-06-26 12:02:28,012 - regime.data.ingest - INFO - Starting macro data ingestion...
+2026-06-26 12:02:28,014 - regime.data.ingest - INFO - Using cached data for VIXCLS: VIXCLS_20260626.parquet
+2026-06-26 12:02:28,033 - regime.data.ingest - INFO - Using cached data for T10Y2Y: T10Y2Y_20260626.parquet
+2026-06-26 12:02:28,051 - regime.data.ingest - INFO - Using cached data for BAA10Y: BAA10Y_20260626.parquet
+2026-06-26 12:02:28,070 - regime.data.ingest - INFO - Using cached data for NFCI: NFCI_20260626.parquet
+2026-06-26 12:02:28,087 - regime.data.ingest - INFO - Completed macro data ingestion in 0.07s
+2026-06-26 12:02:28,087 - regime.data.pipeline - INFO - Completed data ingestion in 0.85s
+2026-06-26 12:02:28,087 - regime.data.pipeline - INFO - Starting data validation...
+2026-06-26 12:02:28,099 - regime.data.pipeline - WARNING - VIXCLS: 19 missing values (1.5%)
+2026-06-26 12:02:28,100 - regime.data.pipeline - WARNING - T10Y2Y: 56 missing values (4.3%)
+2026-06-26 12:02:28,101 - regime.data.pipeline - WARNING - BAA10Y: 59 missing values (4.5%)
+2026-06-26 12:02:28,102 - regime.data.pipeline - INFO - Completed data validation in 0.01s
+2026-06-26 12:02:28,102 - regime.data.pipeline - INFO - Starting coverage analysis...
+2026-06-26 12:02:28,103 - regime.data.pipeline - INFO - Per-asset coverage:
+2026-06-26 12:02:28,104 - regime.data.calendars - INFO -   SPY: 2026-05-26 to 2026-06-25 (30 days)
+2026-06-26 12:02:28,105 - regime.data.calendars - INFO -   TLT: 2026-05-26 to 2026-06-25 (30 days)
+2026-06-26 12:02:28,106 - regime.data.calendars - INFO -   LQD: 2026-05-26 to 2026-06-25 (30 days)
+2026-06-26 12:02:28,107 - regime.data.calendars - INFO -   GLD: 2026-05-26 to 2026-06-25 (30 days)
+2026-06-26 12:02:28,108 - regime.data.calendars - INFO -   DBC: 2026-05-26 to 2026-06-25 (30 days)
+2026-06-26 12:02:28,108 - regime.data.calendars - INFO -   BIL: 2026-05-26 to 2026-06-25 (30 days)
+2026-06-26 12:02:28,109 - regime.data.calendars - INFO -   VIXCLS: 2021-06-28 to 2026-06-24
+2026-06-26 12:02:28,110 - regime.data.calendars - INFO -   T10Y2Y: 2021-06-28 to 2026-06-25
+2026-06-26 12:02:28,110 - regime.data.calendars - INFO -   BAA10Y: 2021-06-28 to 2026-06-24
+2026-06-26 12:02:28,111 - regime.data.calendars - INFO -   NFCI: 2021-07-02 to 2026-06-19
+2026-06-26 12:02:28,111 - regime.data.calendars - INFO - Common coverage period: 2026-05-26 to 2026-06-25 (30 days)
+2026-06-26 12:02:28,111 - regime.data.pipeline - INFO - Completed coverage analysis in 0.01s
+2026-06-26 12:02:28,111 - regime.data.pipeline - INFO - Starting calendar alignment...
+2026-06-26 12:02:28,474 - regime.data.clean - INFO - Created price panel: 22 days x 6 assets
+2026-06-26 12:02:28,483 - regime.data.clean - INFO - Created macro panel: 22 days x 4 series
+2026-06-26 12:02:28,483 - regime.data.pipeline - INFO - Completed calendar alignment in 0.37s
+2026-06-26 12:02:28,483 - regime.data.pipeline - INFO - Starting feature computation...
+2026-06-26 12:02:28,484 - regime.data.features - INFO - Computing causal features...
+2026-06-26 12:02:28,484 - regime.data.features - INFO -   Computing log returns...
+2026-06-26 12:02:28,487 - regime.data.features - INFO -   Computing 21d volatility...
+2026-06-26 12:02:28,490 - regime.data.features - INFO -   Computing 63d volatility...
+2026-06-26 12:02:28,492 - regime.data.features - INFO -   Computing 63d pairwise correlations...
+2026-06-26 12:02:28,501 - regime.data.features - INFO -   Computing average correlation...
+2026-06-26 12:02:28,503 - regime.data.features - INFO -   Computing 252d drawdowns...
+2026-06-26 12:02:28,506 - regime.data.features - INFO -   Adding macro series...
+2026-06-26 12:02:28,510 - regime.data.features - INFO - Computed 39 features over 22 trading days
+2026-06-26 12:02:28,510 - regime.data.pipeline - INFO - Completed feature computation in 0.03s
+2026-06-26 12:02:28,511 - regime.data.pipeline - INFO - Starting final trimming...
+2026-06-26 12:02:28,515 - regime.data.pipeline - INFO - Trimmed to 21 rows starting 2026-05-27
+2026-06-26 12:02:28,515 - regime.data.pipeline - INFO - Completed final trimming in 0.00s
+2026-06-26 12:02:28,516 - regime.data.pipeline - INFO - Starting output generation...
+2026-06-26 12:02:28,533 - regime.data.pipeline - INFO - Wrote features to C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\features.parquet
+2026-06-26 12:02:28,551 - regime.data.pipeline - INFO - Wrote prices + simple returns to C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\prices.parquet
+2026-06-26 12:02:28,573 - regime.data.pipeline - INFO - Wrote data dictionary to C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\data_dictionary.md
+2026-06-26 12:02:31,695 - regime.data.pipeline - INFO - Generated 3 QA figures
+2026-06-26 12:02:31,719 - regime.data.pipeline - INFO - Wrote QA report to C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\reports\qa_report.md
+2026-06-26 12:02:31,720 - regime.data.pipeline - INFO - Completed output generation in 3.20s
+2026-06-26 12:02:31,720 - regime.data.pipeline - INFO - ============================================================
+2026-06-26 12:02:31,720 - regime.data.pipeline - INFO - Pipeline complete!
+2026-06-26 12:02:31,720 - regime.data.pipeline - INFO -   Features: C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\features.parquet
+2026-06-26 12:02:31,721 - regime.data.pipeline - INFO -   Data Dictionary: C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\data_dictionary.md
+2026-06-26 12:02:31,721 - regime.data.pipeline - INFO -   QA Report: C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\reports\qa_report.md
+2026-06-26 12:02:31,721 - regime.data.pipeline - INFO - ============================================================
+2026-06-26 12:13:32,826 - regime.data.pipeline - INFO - ============================================================
+2026-06-26 12:13:32,827 - regime.data.pipeline - INFO - Starting regime-portfolio data pipeline
+2026-06-26 12:13:32,827 - regime.data.pipeline - INFO - ============================================================
+2026-06-26 12:13:32,831 - regime.data.pipeline - INFO - Starting data ingestion...
+2026-06-26 12:13:32,832 - regime.data.ingest - INFO - Starting price data ingestion...
+2026-06-26 12:13:34,708 - regime.data.ingest - INFO - Fetched SPY: 5655 rows from 2004-01-02 to 2026-06-25
+2026-06-26 12:13:34,759 - regime.data.ingest - INFO - Cached SPY data to SPY_20260626.parquet
+2026-06-26 12:13:35,463 - regime.data.ingest - INFO - Fetched TLT: 5655 rows from 2004-01-02 to 2026-06-25
+2026-06-26 12:13:35,479 - regime.data.ingest - INFO - Cached TLT data to TLT_20260626.parquet
+2026-06-26 12:13:36,142 - regime.data.ingest - INFO - Fetched LQD: 5655 rows from 2004-01-02 to 2026-06-25
+2026-06-26 12:13:36,159 - regime.data.ingest - INFO - Cached LQD data to LQD_20260626.parquet
+2026-06-26 12:13:36,660 - regime.data.ingest - INFO - Fetched GLD: 5433 rows from 2004-11-18 to 2026-06-25
+2026-06-26 12:13:36,676 - regime.data.ingest - INFO - Cached GLD data to GLD_20260626.parquet
+2026-06-26 12:13:37,657 - regime.data.ingest - INFO - Fetched DBC: 5128 rows from 2006-02-06 to 2026-06-25
+2026-06-26 12:13:37,672 - regime.data.ingest - INFO - Cached DBC data to DBC_20260626.parquet
+2026-06-26 12:13:38,470 - regime.data.ingest - INFO - Fetched BIL: 4799 rows from 2007-05-30 to 2026-06-25
+2026-06-26 12:13:38,485 - regime.data.ingest - INFO - Cached BIL data to BIL_20260626.parquet
+2026-06-26 12:13:38,485 - regime.data.ingest - INFO - Completed price data ingestion in 5.65s
+2026-06-26 12:13:38,486 - regime.data.ingest - INFO - Starting macro data ingestion...
+2026-06-26 12:13:39,641 - regime.data.ingest - INFO - Fetched VIXCLS: 5865 rows from 2004-01-01 to 2026-06-24
+2026-06-26 12:13:39,649 - regime.data.ingest - INFO - Cached VIXCLS data to VIXCLS_20260626.parquet
+2026-06-26 12:13:41,075 - regime.data.ingest - INFO - Fetched T10Y2Y: 5866 rows from 2004-01-01 to 2026-06-25
+2026-06-26 12:13:41,083 - regime.data.ingest - INFO - Cached T10Y2Y data to T10Y2Y_20260626.parquet
+2026-06-26 12:13:44,452 - regime.data.ingest - INFO - Fetched BAA10Y: 5865 rows from 2004-01-01 to 2026-06-24
+2026-06-26 12:13:44,460 - regime.data.ingest - INFO - Cached BAA10Y data to BAA10Y_20260626.parquet
+2026-06-26 12:13:46,403 - regime.data.ingest - INFO - Fetched NFCI: 1173 rows from 2004-01-02 to 2026-06-19
+2026-06-26 12:13:46,410 - regime.data.ingest - INFO - Cached NFCI data to NFCI_20260626.parquet
+2026-06-26 12:13:46,410 - regime.data.ingest - INFO - Completed macro data ingestion in 7.92s
+2026-06-26 12:13:46,410 - regime.data.pipeline - INFO - Completed data ingestion in 13.58s
+2026-06-26 12:13:46,411 - regime.data.pipeline - INFO - Starting data validation...
+2026-06-26 12:13:46,417 - regime.data.pipeline - WARNING - VIXCLS: 179 missing values (3.1%)
+2026-06-26 12:13:46,419 - regime.data.pipeline - WARNING - T10Y2Y: 242 missing values (4.1%)
+2026-06-26 12:13:46,420 - regime.data.pipeline - WARNING - BAA10Y: 247 missing values (4.2%)
+2026-06-26 12:13:46,420 - regime.data.pipeline - INFO - Completed data validation in 0.01s
+2026-06-26 12:13:46,421 - regime.data.pipeline - INFO - Starting coverage analysis...
+2026-06-26 12:13:46,421 - regime.data.pipeline - INFO - Per-asset coverage:
+2026-06-26 12:13:46,422 - regime.data.calendars - INFO -   SPY: 2004-01-02 to 2026-06-25 (8210 days)
+2026-06-26 12:13:46,423 - regime.data.calendars - INFO -   TLT: 2004-01-02 to 2026-06-25 (8210 days)
+2026-06-26 12:13:46,424 - regime.data.calendars - INFO -   LQD: 2004-01-02 to 2026-06-25 (8210 days)
+2026-06-26 12:13:46,425 - regime.data.calendars - INFO -   GLD: 2004-11-18 to 2026-06-25 (7889 days)
+2026-06-26 12:13:46,426 - regime.data.calendars - INFO -   DBC: 2006-02-06 to 2026-06-25 (7444 days)
+2026-06-26 12:13:46,426 - regime.data.calendars - INFO -   BIL: 2007-05-30 to 2026-06-25 (6966 days)
+2026-06-26 12:13:46,427 - regime.data.calendars - INFO -   VIXCLS: 2004-01-02 to 2026-06-24
+2026-06-26 12:13:46,428 - regime.data.calendars - INFO -   T10Y2Y: 2004-01-02 to 2026-06-25
+2026-06-26 12:13:46,429 - regime.data.calendars - INFO -   BAA10Y: 2004-01-02 to 2026-06-24
+2026-06-26 12:13:46,429 - regime.data.calendars - INFO -   NFCI: 2004-01-02 to 2026-06-19
+2026-06-26 12:13:46,429 - regime.data.calendars - INFO - Common coverage period: 2007-05-30 to 2026-06-25 (6966 days)
+2026-06-26 12:13:46,430 - regime.data.pipeline - INFO - Completed coverage analysis in 0.01s
+2026-06-26 12:13:46,430 - regime.data.pipeline - INFO - Starting calendar alignment...
+2026-06-26 12:13:46,962 - regime.data.clean - INFO - Created price panel: 4799 days x 6 assets
+2026-06-26 12:13:46,969 - regime.data.clean - INFO - Created macro panel: 4799 days x 4 series
+2026-06-26 12:13:46,969 - regime.data.pipeline - INFO - Completed calendar alignment in 0.54s
+2026-06-26 12:13:46,970 - regime.data.pipeline - INFO - Starting feature computation...
+2026-06-26 12:13:46,970 - regime.data.features - INFO - Computing causal features...
+2026-06-26 12:13:46,970 - regime.data.features - INFO -   Computing log returns...
+2026-06-26 12:13:46,972 - regime.data.features - INFO -   Computing 21d volatility...
+2026-06-26 12:13:46,977 - regime.data.features - INFO -   Computing 63d volatility...
+2026-06-26 12:13:46,981 - regime.data.features - INFO -   Computing 63d pairwise correlations...
+2026-06-26 12:13:47,002 - regime.data.features - INFO -   Computing average correlation...
+2026-06-26 12:13:47,005 - regime.data.features - INFO -   Computing 252d drawdowns...
+2026-06-26 12:13:47,010 - regime.data.features - INFO -   Adding macro series...
+2026-06-26 12:13:47,015 - regime.data.features - INFO - Computed 39 features over 4799 trading days
+2026-06-26 12:13:47,015 - regime.data.pipeline - INFO - Completed feature computation in 0.05s
+2026-06-26 12:13:47,016 - regime.data.pipeline - INFO - Starting final trimming...
+2026-06-26 12:13:47,019 - regime.data.pipeline - INFO - Trimmed to 4798 rows starting 2007-05-31
+2026-06-26 12:13:47,020 - regime.data.pipeline - INFO - Completed final trimming in 0.00s
+2026-06-26 12:13:47,020 - regime.data.pipeline - INFO - Starting output generation...
+2026-06-26 12:13:47,067 - regime.data.pipeline - INFO - Wrote features to C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\features.parquet
+2026-06-26 12:13:47,108 - regime.data.pipeline - INFO - Wrote prices + simple returns to C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\prices.parquet
+2026-06-26 12:13:47,133 - regime.data.pipeline - INFO - Wrote data dictionary to C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\data_dictionary.md
+2026-06-26 12:13:49,607 - regime.data.pipeline - INFO - Generated 3 QA figures
+2026-06-26 12:13:49,631 - regime.data.pipeline - INFO - Wrote QA report to C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\reports\qa_report.md
+2026-06-26 12:13:49,632 - regime.data.pipeline - INFO - Completed output generation in 2.61s
+2026-06-26 12:13:49,632 - regime.data.pipeline - INFO - ============================================================
+2026-06-26 12:13:49,632 - regime.data.pipeline - INFO - Pipeline complete!
+2026-06-26 12:13:49,633 - regime.data.pipeline - INFO -   Features: C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\features.parquet
+2026-06-26 12:13:49,633 - regime.data.pipeline - INFO -   Data Dictionary: C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\data_dictionary.md
+2026-06-26 12:13:49,633 - regime.data.pipeline - INFO -   QA Report: C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\reports\qa_report.md
+2026-06-26 12:13:49,633 - regime.data.pipeline - INFO - ============================================================
+2026-06-26 12:21:33,429 - regime.data.pipeline - INFO - ============================================================
+2026-06-26 12:21:33,430 - regime.data.pipeline - INFO - Starting regime-portfolio data pipeline
+2026-06-26 12:21:33,430 - regime.data.pipeline - INFO - ============================================================
+2026-06-26 12:21:33,433 - regime.data.pipeline - INFO - Starting data ingestion...
+2026-06-26 12:21:33,434 - regime.data.ingest - INFO - Starting price data ingestion...
+2026-06-26 12:21:33,435 - regime.data.ingest - INFO - Using cached data for SPY: SPY_20260626.parquet
+2026-06-26 12:21:33,524 - regime.data.ingest - INFO - Using cached data for TLT: TLT_20260626.parquet
+2026-06-26 12:21:33,548 - regime.data.ingest - INFO - Using cached data for LQD: LQD_20260626.parquet
+2026-06-26 12:21:33,569 - regime.data.ingest - INFO - Using cached data for GLD: GLD_20260626.parquet
+2026-06-26 12:21:33,590 - regime.data.ingest - INFO - Using cached data for DBC: DBC_20260626.parquet
+2026-06-26 12:21:33,612 - regime.data.ingest - INFO - Using cached data for BIL: BIL_20260626.parquet
+2026-06-26 12:21:33,635 - regime.data.ingest - INFO - Completed price data ingestion in 0.20s
+2026-06-26 12:21:33,636 - regime.data.ingest - INFO - Starting macro data ingestion...
+2026-06-26 12:21:33,637 - regime.data.ingest - INFO - Using cached data for VIXCLS: VIXCLS_20260626.parquet
+2026-06-26 12:21:33,658 - regime.data.ingest - INFO - Using cached data for T10Y2Y: T10Y2Y_20260626.parquet
+2026-06-26 12:21:33,681 - regime.data.ingest - INFO - Using cached data for BAA10Y: BAA10Y_20260626.parquet
+2026-06-26 12:21:33,701 - regime.data.ingest - INFO - Using cached data for NFCI: NFCI_20260626.parquet
+2026-06-26 12:21:33,731 - regime.data.ingest - INFO - Completed macro data ingestion in 0.09s
+2026-06-26 12:21:33,731 - regime.data.pipeline - INFO - Completed data ingestion in 0.30s
+2026-06-26 12:21:33,731 - regime.data.pipeline - INFO - Starting data validation...
+2026-06-26 12:21:33,742 - regime.data.pipeline - WARNING - VIXCLS: 179 missing values (3.1%)
+2026-06-26 12:21:33,743 - regime.data.pipeline - WARNING - T10Y2Y: 242 missing values (4.1%)
+2026-06-26 12:21:33,744 - regime.data.pipeline - WARNING - BAA10Y: 247 missing values (4.2%)
+2026-06-26 12:21:33,745 - regime.data.pipeline - INFO - Completed data validation in 0.01s
+2026-06-26 12:21:33,745 - regime.data.pipeline - INFO - Starting coverage analysis...
+2026-06-26 12:21:33,746 - regime.data.pipeline - INFO - Per-asset coverage:
+2026-06-26 12:21:33,747 - regime.data.calendars - INFO -   SPY: 2004-01-02 to 2026-06-25 (8210 days)
+2026-06-26 12:21:33,748 - regime.data.calendars - INFO -   TLT: 2004-01-02 to 2026-06-25 (8210 days)
+2026-06-26 12:21:33,749 - regime.data.calendars - INFO -   LQD: 2004-01-02 to 2026-06-25 (8210 days)
+2026-06-26 12:21:33,749 - regime.data.calendars - INFO -   GLD: 2004-11-18 to 2026-06-25 (7889 days)
+2026-06-26 12:21:33,750 - regime.data.calendars - INFO -   DBC: 2006-02-06 to 2026-06-25 (7444 days)
+2026-06-26 12:21:33,751 - regime.data.calendars - INFO -   BIL: 2007-05-30 to 2026-06-25 (6966 days)
+2026-06-26 12:21:33,752 - regime.data.calendars - INFO -   VIXCLS: 2004-01-02 to 2026-06-24
+2026-06-26 12:21:33,753 - regime.data.calendars - INFO -   T10Y2Y: 2004-01-02 to 2026-06-25
+2026-06-26 12:21:33,753 - regime.data.calendars - INFO -   BAA10Y: 2004-01-02 to 2026-06-24
+2026-06-26 12:21:33,754 - regime.data.calendars - INFO -   NFCI: 2004-01-02 to 2026-06-19
+2026-06-26 12:21:33,754 - regime.data.calendars - INFO - Common coverage period: 2007-05-30 to 2026-06-25 (6966 days)
+2026-06-26 12:21:33,755 - regime.data.pipeline - INFO - Completed coverage analysis in 0.01s
+2026-06-26 12:21:33,755 - regime.data.pipeline - INFO - Starting calendar alignment...
+2026-06-26 12:21:34,297 - regime.data.clean - INFO - Created price panel: 4799 days x 6 assets
+2026-06-26 12:21:34,304 - regime.data.clean - INFO - Created macro panel: 4799 days x 4 series
+2026-06-26 12:21:34,304 - regime.data.pipeline - INFO - Completed calendar alignment in 0.55s
+2026-06-26 12:21:34,304 - regime.data.pipeline - INFO - Starting feature computation...
+2026-06-26 12:21:34,305 - regime.data.features - INFO - Computing causal features...
+2026-06-26 12:21:34,305 - regime.data.features - INFO -   Computing log returns...
+2026-06-26 12:21:34,307 - regime.data.features - INFO -   Computing 21d volatility...
+2026-06-26 12:21:34,310 - regime.data.features - INFO -   Computing 63d volatility...
+2026-06-26 12:21:34,314 - regime.data.features - INFO -   Computing 63d pairwise correlations...
+2026-06-26 12:21:34,335 - regime.data.features - INFO -   Computing average correlation...
+2026-06-26 12:21:34,338 - regime.data.features - INFO -   Computing 252d drawdowns...
+2026-06-26 12:21:34,343 - regime.data.features - INFO -   Adding macro series...
+2026-06-26 12:21:34,348 - regime.data.features - INFO - Computed 39 features over 4799 trading days
+2026-06-26 12:21:34,348 - regime.data.pipeline - INFO - Completed feature computation in 0.04s
+2026-06-26 12:21:34,348 - regime.data.pipeline - INFO - Starting final trimming...
+2026-06-26 12:21:34,352 - regime.data.pipeline - INFO - Trimmed to 4798 rows starting 2007-05-31
+2026-06-26 12:21:34,353 - regime.data.pipeline - INFO - Completed final trimming in 0.00s
+2026-06-26 12:21:34,353 - regime.data.pipeline - INFO - Starting output generation...
+2026-06-26 12:21:34,400 - regime.data.pipeline - INFO - Wrote features to C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\features.parquet
+2026-06-26 12:21:34,441 - regime.data.pipeline - INFO - Wrote prices + simple returns to C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\prices.parquet
+2026-06-26 12:21:34,466 - regime.data.pipeline - INFO - Wrote data dictionary to C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\data_dictionary.md
+2026-06-26 12:21:36,878 - regime.data.pipeline - INFO - Generated 3 QA figures
+2026-06-26 12:21:36,903 - regime.data.pipeline - INFO - Wrote QA report to C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\reports\qa_report.md
+2026-06-26 12:21:36,903 - regime.data.pipeline - INFO - Completed output generation in 2.55s
+2026-06-26 12:21:36,904 - regime.data.pipeline - INFO - ============================================================
+2026-06-26 12:21:36,904 - regime.data.pipeline - INFO - Pipeline complete!
+2026-06-26 12:21:36,904 - regime.data.pipeline - INFO -   Features: C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\features.parquet
+2026-06-26 12:21:36,905 - regime.data.pipeline - INFO -   Data Dictionary: C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\data_dictionary.md
+2026-06-26 12:21:36,905 - regime.data.pipeline - INFO -   QA Report: C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\reports\qa_report.md
+2026-06-26 12:21:36,905 - regime.data.pipeline - INFO - ============================================================
+2026-06-28 19:54:20,744 - regime.data.pipeline - INFO - ============================================================
+2026-06-28 19:54:20,746 - regime.data.pipeline - INFO - Starting regime-portfolio data pipeline
+2026-06-28 19:54:20,747 - regime.data.pipeline - INFO - ============================================================
+2026-06-28 19:54:20,751 - regime.data.pipeline - INFO - Starting data ingestion...
+2026-06-28 19:54:20,753 - regime.data.ingest - INFO - Starting price data ingestion...
+2026-06-28 19:54:27,272 - regime.data.ingest - INFO - Fetched SPY: 5656 rows from 2004-01-02 to 2026-06-26
+2026-06-28 19:54:27,670 - regime.data.ingest - INFO - Cached SPY data to SPY_20260628.parquet
+2026-06-28 19:54:28,728 - regime.data.ingest - INFO - Fetched TLT: 5656 rows from 2004-01-02 to 2026-06-26
+2026-06-28 19:54:28,749 - regime.data.ingest - INFO - Cached TLT data to TLT_20260628.parquet
+2026-06-28 19:54:29,385 - regime.data.ingest - INFO - Fetched LQD: 5656 rows from 2004-01-02 to 2026-06-26
+2026-06-28 19:54:29,403 - regime.data.ingest - INFO - Cached LQD data to LQD_20260628.parquet
+2026-06-28 19:54:29,957 - regime.data.ingest - INFO - Fetched GLD: 5434 rows from 2004-11-18 to 2026-06-26
+2026-06-28 19:54:29,976 - regime.data.ingest - INFO - Cached GLD data to GLD_20260628.parquet
+2026-06-28 19:54:30,771 - regime.data.ingest - INFO - Fetched DBC: 5129 rows from 2006-02-06 to 2026-06-26
+2026-06-28 19:54:30,799 - regime.data.ingest - INFO - Cached DBC data to DBC_20260628.parquet
+2026-06-28 19:54:31,535 - regime.data.ingest - INFO - Fetched BIL: 4800 rows from 2007-05-30 to 2026-06-26
+2026-06-28 19:54:31,551 - regime.data.ingest - INFO - Cached BIL data to BIL_20260628.parquet
+2026-06-28 19:54:31,552 - regime.data.ingest - INFO - Completed price data ingestion in 10.80s
+2026-06-28 19:54:31,554 - regime.data.ingest - INFO - Starting macro data ingestion...
+2026-06-28 19:54:33,389 - regime.data.ingest - INFO - Fetched VIXCLS: 5866 rows from 2004-01-01 to 2026-06-25
+2026-06-28 19:54:33,398 - regime.data.ingest - INFO - Cached VIXCLS data to VIXCLS_20260628.parquet
+2026-06-28 19:54:34,470 - regime.data.ingest - INFO - Fetched T10Y2Y: 5867 rows from 2004-01-01 to 2026-06-26
+2026-06-28 19:54:34,490 - regime.data.ingest - INFO - Cached T10Y2Y data to T10Y2Y_20260628.parquet
+2026-06-28 19:54:37,779 - regime.data.ingest - INFO - Fetched BAA10Y: 5866 rows from 2004-01-01 to 2026-06-25
+2026-06-28 19:54:37,788 - regime.data.ingest - INFO - Cached BAA10Y data to BAA10Y_20260628.parquet
+2026-06-28 19:54:38,896 - regime.data.ingest - INFO - Fetched NFCI: 1173 rows from 2004-01-02 to 2026-06-19
+2026-06-28 19:54:38,914 - regime.data.ingest - INFO - Cached NFCI data to NFCI_20260628.parquet
+2026-06-28 19:54:38,915 - regime.data.ingest - INFO - Completed macro data ingestion in 7.36s
+2026-06-28 19:54:38,915 - regime.data.pipeline - INFO - Completed data ingestion in 18.16s
+2026-06-28 19:54:38,916 - regime.data.pipeline - INFO - Starting data validation...
+2026-06-28 19:54:38,925 - regime.data.pipeline - WARNING - VIXCLS: 179 missing values (3.1%)
+2026-06-28 19:54:38,926 - regime.data.pipeline - WARNING - T10Y2Y: 242 missing values (4.1%)
+2026-06-28 19:54:38,927 - regime.data.pipeline - WARNING - BAA10Y: 247 missing values (4.2%)
+2026-06-28 19:54:38,929 - regime.data.pipeline - INFO - Completed data validation in 0.01s
+2026-06-28 19:54:38,930 - regime.data.pipeline - INFO - Starting coverage analysis...
+2026-06-28 19:54:38,930 - regime.data.pipeline - INFO - Per-asset coverage:
+2026-06-28 19:54:38,932 - regime.data.calendars - INFO -   SPY: 2004-01-02 to 2026-06-26 (8211 days)
+2026-06-28 19:54:38,933 - regime.data.calendars - INFO -   TLT: 2004-01-02 to 2026-06-26 (8211 days)
+2026-06-28 19:54:38,934 - regime.data.calendars - INFO -   LQD: 2004-01-02 to 2026-06-26 (8211 days)
+2026-06-28 19:54:38,935 - regime.data.calendars - INFO -   GLD: 2004-11-18 to 2026-06-26 (7890 days)
+2026-06-28 19:54:38,936 - regime.data.calendars - INFO -   DBC: 2006-02-06 to 2026-06-26 (7445 days)
+2026-06-28 19:54:38,937 - regime.data.calendars - INFO -   BIL: 2007-05-30 to 2026-06-26 (6967 days)
+2026-06-28 19:54:38,938 - regime.data.calendars - INFO -   VIXCLS: 2004-01-02 to 2026-06-25
+2026-06-28 19:54:38,939 - regime.data.calendars - INFO -   T10Y2Y: 2004-01-02 to 2026-06-26
+2026-06-28 19:54:38,940 - regime.data.calendars - INFO -   BAA10Y: 2004-01-02 to 2026-06-25
+2026-06-28 19:54:38,940 - regime.data.calendars - INFO -   NFCI: 2004-01-02 to 2026-06-19
+2026-06-28 19:54:38,941 - regime.data.calendars - INFO - Common coverage period: 2007-05-30 to 2026-06-26 (6967 days)
+2026-06-28 19:54:38,941 - regime.data.pipeline - INFO - Completed coverage analysis in 0.01s
+2026-06-28 19:54:38,941 - regime.data.pipeline - INFO - Starting calendar alignment...
+2026-06-28 19:54:39,785 - regime.data.clean - INFO - Created price panel: 4800 days x 6 assets
+2026-06-28 19:54:39,799 - regime.data.clean - INFO - Created macro panel: 4800 days x 4 series
+2026-06-28 19:54:39,799 - regime.data.pipeline - INFO - Completed calendar alignment in 0.86s
+2026-06-28 19:54:39,799 - regime.data.pipeline - INFO - Starting feature computation...
+2026-06-28 19:54:39,800 - regime.data.features - INFO - Computing causal features...
+2026-06-28 19:54:39,800 - regime.data.features - INFO -   Computing log returns...
+2026-06-28 19:54:39,804 - regime.data.features - INFO -   Computing 21d volatility...
+2026-06-28 19:54:39,810 - regime.data.features - INFO -   Computing 63d volatility...
+2026-06-28 19:54:39,816 - regime.data.features - INFO -   Computing 63d pairwise correlations...
+2026-06-28 19:54:39,855 - regime.data.features - INFO -   Computing average correlation...
+2026-06-28 19:54:39,860 - regime.data.features - INFO -   Computing 252d drawdowns...
+2026-06-28 19:54:39,867 - regime.data.features - INFO -   Adding macro series...
+2026-06-28 19:54:39,876 - regime.data.features - INFO - Computed 39 features over 4800 trading days
+2026-06-28 19:54:39,877 - regime.data.pipeline - INFO - Completed feature computation in 0.08s
+2026-06-28 19:54:39,878 - regime.data.pipeline - INFO - Starting final trimming...
+2026-06-28 19:54:39,884 - regime.data.pipeline - INFO - Trimmed to 4799 rows starting 2007-05-31
+2026-06-28 19:54:39,884 - regime.data.pipeline - INFO - Completed final trimming in 0.01s
+2026-06-28 19:54:39,885 - regime.data.pipeline - INFO - Starting output generation...
+2026-06-28 19:54:39,957 - regime.data.pipeline - INFO - Wrote features to C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\features.parquet
+2026-06-28 19:54:40,012 - regime.data.pipeline - INFO - Wrote prices + simple returns to C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\prices.parquet
+2026-06-28 19:54:40,049 - regime.data.pipeline - INFO - Wrote data dictionary to C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\data_dictionary.md
+2026-06-28 19:54:44,373 - regime.data.pipeline - INFO - Generated 3 QA figures
+2026-06-28 19:54:44,400 - regime.data.pipeline - INFO - Wrote QA report to C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\reports\qa_report.md
+2026-06-28 19:54:44,401 - regime.data.pipeline - INFO - Completed output generation in 4.52s
+2026-06-28 19:54:44,401 - regime.data.pipeline - INFO - ============================================================
+2026-06-28 19:54:44,401 - regime.data.pipeline - INFO - Pipeline complete!
+2026-06-28 19:54:44,402 - regime.data.pipeline - INFO -   Features: C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\features.parquet
+2026-06-28 19:54:44,402 - regime.data.pipeline - INFO -   Data Dictionary: C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\data\processed\data_dictionary.md
+2026-06-28 19:54:44,402 - regime.data.pipeline - INFO -   QA Report: C:\Users\cianr\OneDrive\Engineering\Fourth Year\Skripsie\regime-portfolio\reports\qa_report.md
+2026-06-28 19:54:44,403 - regime.data.pipeline - INFO - ============================================================

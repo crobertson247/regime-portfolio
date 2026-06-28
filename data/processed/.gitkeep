@@ -1,0 +1,6 @@
+# Processed data directory
+# This directory contains the final outputs:
+# - features.parquet: The causal feature matrix (one row per trading day)
+# - data_dictionary.md: Documentation of all columns
+#
+# These files may be committed or managed via DVC depending on project needs.
