@@ -4,8 +4,6 @@ Project E448 | Stellenbosch University | Final Year Engineering Thesis
 
 This repository holds the data pipeline for a study on regime-conditioned portfolio allocation. The question behind the project is whether detecting market regimes (bull, bear, crisis) lets a portfolio adapt its allocation to changing correlation structure, and whether that improves diversification when it matters most.
 
-This stage (Phase 2) produces the feature dataset. The detection, allocation, and backtest stages are scaffolded but not yet implemented.
-
 ## Project structure
 
 ```
@@ -176,15 +174,31 @@ universe:
 
 Calendar and currency would need handling, but the feature code should not have to change.
 
-## Later phases (future work)
+## Regime detection (Phase 3)
 
-Phase 2 outputs `features.parquet`. The remaining phases build on it:
+Phase 3 labels each trading day as **calm**, **volatile** or **crisis** from the Phase 2 feature matrix, under the same causal, point-in-time discipline as the features themselves. This phase implements the hidden Markov model detector and the walk-forward labelling harness; the statistical jump/clustering and change-point detectors are planned next and will share the `RegimeDetector` interface.
 
-- Phase 3: regime detectors (HMM, volatility clustering, correlation regimes)
-- Phase 4: a regime-conditioned allocation layer
-- Phase 5: walk-forward backtesting
+```bash
+python scripts/run_detection.py --config config/detection.yaml
+```
 
-Stub modules sit at `src/regime/detection/`, `allocation/`, and `backtest/`.
+This standardises a small detection feature set (market return, market volatility, average pairwise correlation, VIX) with a causal expanding z-score, fits a Gaussian HMM, and labels every day with a walk-forward loop: the model is refitted on an expanding window at each refit point and filtered forward in between, so no future information reaches any past label. Outputs are `data/processed/regimes.parquet`, a QA report (`reports/detection_report.md`) and a figure (`reports/figures/regimes.png`).
+
+Key design points:
+
+- **Causal by construction.** The filtered posterior at day t uses only data up to t. `tests/test_detection.py` verifies this by truncation, the same way the feature causality test does.
+- **States are severity-ordered.** A fitted HMM's internal states are unlabelled, so they are sorted by their stress-feature means and mapped to calm < volatile < crisis. Labels stay comparable across refits and (later) across detectors.
+- **Filtered vs smoothed.** Filtered (causal) inference is used for labelling; full-sample smoothed states are available for plotting and comparison only.
+
+On the cross-asset basket the crisis regime concentrates in the 2008, 2020 and 2022 stress periods (far above the calm-period baseline) and the regimes are persistent rather than rapidly switching, which is what a tradable regime signal should look like.
+
+## Later phases
+
+- **Phase 3 (continued):** Jump-model and change-point detectors
+- **Phase 4:** a regime-conditioned allocation layer (mean-variance, risk parity, CVaR under crisis).
+- **Phase 5:** walk-forward backtesting and evaluation.
+
+Stub modules sit at `src/regime/allocation/` and `src/regime/backtest/`.
 
 ## Reproducibility
 

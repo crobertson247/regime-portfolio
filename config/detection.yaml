@@ -1,0 +1,36 @@
+# =============================================================================
+# Regime detection configuration (Phase 3)
+# =============================================================================
+
+detection:
+  # Number of regimes: calm, volatile, crisis
+  n_states: 3
+
+  # Detection feature subset (columns of features.parquet). Kept small so the
+  # Gaussian HMM covariance estimates stay stable.
+  features:
+    - SPY_ret        # market return (drift)
+    - SPY_vol63d     # market volatility, ~3 months
+    - avg_corr63d    # average pairwise correlation (co-movement)
+    - VIXCLS         # implied volatility (stress)
+
+  # Features used to order the fitted states from calm to crisis
+  severity_features:
+    - SPY_vol63d
+    - avg_corr63d
+    - VIXCLS
+
+  # Minimum observations before the causal expanding z-score is computed
+  standardize_min_periods: 60
+
+  # HMM fitting
+  covariance_type: "diag"   # "diag" or "full"
+  n_iter: 100
+  tol: 1.0e-4
+  n_restarts: 8             # keep the best of N random EM restarts
+  random_state: 42
+  min_covar: 1.0e-3
+
+  # Walk-forward labelling
+  min_train: 252            # ~1 year warm-up before the first label
+  refit_every: 63           # refit quarterly; filter forward in between
