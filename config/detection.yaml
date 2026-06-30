@@ -3,34 +3,42 @@
 # =============================================================================
 
 detection:
-  # Number of regimes: calm, volatile, crisis
-  n_states: 3
+  method: "hmm"            # default detector: hmm, jump or changepoint
+  n_states: 3              # calm, volatile, crisis
 
-  # Detection feature subset (columns of features.parquet). Kept small so the
-  # Gaussian HMM covariance estimates stay stable.
+  # Detection feature subset (columns of features.parquet), kept small so the
+  # detectors stay well-conditioned.
   features:
     - SPY_ret        # market return (drift)
     - SPY_vol63d     # market volatility, ~3 months
     - avg_corr63d    # average pairwise correlation (co-movement)
     - VIXCLS         # implied volatility (stress)
 
-  # Features used to order the fitted states from calm to crisis
-  severity_features:
+  severity_features:       # used to order states from calm to crisis
     - SPY_vol63d
     - avg_corr63d
     - VIXCLS
 
-  # Minimum observations before the causal expanding z-score is computed
   standardize_min_periods: 60
+  random_state: 42
 
-  # HMM fitting
-  covariance_type: "diag"   # "diag" or "full"
+  # HMM
+  covariance_type: "diag"
   n_iter: 100
   tol: 1.0e-4
-  n_restarts: 8             # keep the best of N random EM restarts
-  random_state: 42
+  n_restarts: 8
   min_covar: 1.0e-3
 
+  # Jump model
+  jump_penalty: 50.0
+  jump_n_init: 10
+
+  # Change-point (ruptures)
+  cp_model: "l2"
+  cp_min_size: 10
+  cp_pen_scale: 2.0
+  cp_window: 126
+
   # Walk-forward labelling
-  min_train: 252            # ~1 year warm-up before the first label
-  refit_every: 63           # refit quarterly; filter forward in between
+  min_train: 252
+  refit_every: 63

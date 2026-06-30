@@ -4,10 +4,10 @@ Regime detection module (Phase 3).
 Detects a market regime (calm, volatile, crisis) for each trading day from the
 Phase 2 feature matrix, under strictly causal, point-in-time inference.
 
-This phase implements the hidden Markov model detector and the causal
-walk-forward labelling harness. The statistical jump / clustering and
-change-point detectors are planned next and will share the RegimeDetector
-interface.
+Three detector families share the RegimeDetector interface:
+- HMMDetector: Gaussian hidden Markov model (probabilistic baseline).
+- JumpModelDetector: temporal clustering with a jump penalty.
+- ChangePointDetector: assumption-light change-point segmentation (ruptures).
 """
 
 from regime.detection.base import (
@@ -18,14 +18,26 @@ from regime.detection.base import (
     RegimeDetector,
     regime_name,
 )
+from regime.detection.changepoint import ChangePointDetector
 from regime.detection.config import DetectionConfig, load_detection_config
 from regime.detection.features import prepare_detection_features
 from regime.detection.hmm import HMMDetector
+from regime.detection.jump import JumpModelDetector
 from regime.detection.walkforward import label_walk_forward
+
+# Detector registry, keyed by the --method name used in scripts.
+DETECTORS = {
+    "hmm": HMMDetector,
+    "jump": JumpModelDetector,
+    "changepoint": ChangePointDetector,
+}
 
 __all__ = [
     "RegimeDetector",
     "HMMDetector",
+    "JumpModelDetector",
+    "ChangePointDetector",
+    "DETECTORS",
     "DetectionConfig",
     "load_detection_config",
     "prepare_detection_features",

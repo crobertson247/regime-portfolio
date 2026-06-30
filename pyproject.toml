@@ -39,6 +39,7 @@ dependencies = [
     "scipy>=1.11.0",
     "scikit-learn>=1.3.0",
     "hmmlearn>=0.3.0",
+    "ruptures>=1.1.0",
 
     # CLI
     "click>=8.1.0",
@@ -68,6 +69,11 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_functions = ["test_*"]
 addopts = "-v --tb=short"
+filterwarnings = [
+    # hmmlearn sets array.shape directly; NumPy 2.5 deprecates this. Harmless,
+    # and out of our control until hmmlearn updates.
+    "ignore:Setting the shape on a NumPy array has been deprecated:DeprecationWarning",
+]
 
 [tool.mypy]
 python_version = "3.11"

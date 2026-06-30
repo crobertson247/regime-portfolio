@@ -176,25 +176,29 @@ Calendar and currency would need handling, but the feature code should not have 
 
 ## Regime detection (Phase 3)
 
-Phase 3 labels each trading day as **calm**, **volatile** or **crisis** from the Phase 2 feature matrix, under the same causal, point-in-time discipline as the features themselves. This phase implements the hidden Markov model detector and the walk-forward labelling harness; the statistical jump/clustering and change-point detectors are planned next and will share the `RegimeDetector` interface.
+Phase 3 labels each trading day as **calm**, **volatile** or **crisis** from the Phase 2 feature matrix, under the same causal, point-in-time discipline as the features themselves. It implements three detector families on a shared `RegimeDetector` interface, plus the walk-forward labelling harness:
+
+- **HMM** — a Gaussian hidden Markov model (the probabilistic baseline), with a hand-written forward filter for causal inference.
+- **Jump model** — temporal clustering with a jump penalty (Nystrup; Shu and Mulvey); a forward dynamic program gives the causal labels. Produces more persistent regimes.
+- **Change-point** — assumption-light segmentation with `ruptures`, with each segment labelled by its nearest severity-ordered prototype.
 
 ```bash
-python scripts/run_detection.py --config config/detection.yaml
+python scripts/run_detection.py --method hmm           # one detector
+python scripts/run_detection.py --method all           # all three + a comparison
 ```
 
-This standardises a small detection feature set (market return, market volatility, average pairwise correlation, VIX) with a causal expanding z-score, fits a Gaussian HMM, and labels every day with a walk-forward loop: the model is refitted on an expanding window at each refit point and filtered forward in between, so no future information reaches any past label. Outputs are `data/processed/regimes.parquet`, a QA report (`reports/detection_report.md`) and a figure (`reports/figures/regimes.png`).
+Each detector standardises a small feature set (market return, market volatility, average pairwise correlation, VIX) with a causal expanding z-score, then labels every day with a walk-forward loop: refit on an expanding window at each refit point and filter forward in between, so no future information reaches any past label. Outputs go to `data/processed/regimes_{method}.parquet` and `reports/detection/` (per-detector reports, a comparison, and figures).
 
 Key design points:
 
-- **Causal by construction.** The filtered posterior at day t uses only data up to t. `tests/test_detection.py` verifies this by truncation, the same way the feature causality test does.
-- **States are severity-ordered.** A fitted HMM's internal states are unlabelled, so they are sorted by their stress-feature means and mapped to calm < volatile < crisis. Labels stay comparable across refits and (later) across detectors.
+- **Causal by construction.** The filtered label at day t uses only data up to t. `tests/test_detection.py` verifies this by truncation for all three detectors, the same way the feature causality test does.
+- **States are severity-ordered.** A model's internal states are unlabelled, so they are sorted by their stress-feature means and mapped to calm < volatile < crisis. Labels stay comparable across refits and across detectors.
 - **Filtered vs smoothed.** Filtered (causal) inference is used for labelling; full-sample smoothed states are available for plotting and comparison only.
 
-On the cross-asset basket the crisis regime concentrates in the 2008, 2020 and 2022 stress periods (far above the calm-period baseline) and the regimes are persistent rather than rapidly switching, which is what a tradable regime signal should look like.
+On the cross-asset basket the crisis regime concentrates in the 2008, 2020 and 2022 stress periods, far above the calm-period baseline, and the regimes are persistent rather than rapidly switching. The detectors differ in character as expected: the HMM is the most reactive, the jump model the most persistent, and change-point the most assumption-light.
 
 ## Later phases
 
-- **Phase 3 (continued):** Jump-model and change-point detectors
 - **Phase 4:** a regime-conditioned allocation layer (mean-variance, risk parity, CVaR under crisis).
 - **Phase 5:** walk-forward backtesting and evaluation.
 
