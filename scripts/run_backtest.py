@@ -121,19 +121,22 @@ def main(config, features_path, cost_bps):
     if not weight_files:
         raise SystemExit("No weights_*.parquet found. Run scripts/run_allocation.py first.")
 
-    nets, rows = {}, {}
+    bts, nets = {}, {}
     for p in weight_files:
         name = Path(p).stem.replace("weights_", "")
-        bt = run_backtest(pd.read_parquet(p), returns, cost_bps=cost)
-        nets[name] = bt["net"]
-        rows[name] = summarise(bt, rf)
+        bts[name] = run_backtest(pd.read_parquet(p), returns, cost_bps=cost)
+        nets[name] = bts[name]["net"]
 
-    # common labelled window, for PBO and DSR
+    # Common evaluation window: the first date on which every strategy is live.
+    # Metrics are computed here so no strategy is credited for a period it could
+    # not trade (e.g. before the detector has warmed up).
     common = None
     for net in nets.values():
         idx = net.dropna().index
         common = idx if common is None else common.intersection(idx)
-    trial_sharpes = [sharpe_ratio(nets[k].reindex(common), rf, annualise=False) for k in nets]
+    nets = {k: v.reindex(common) for k, v in nets.items()}
+    rows = {k: summarise(bts[k].reindex(common), rf) for k in bts}
+    trial_sharpes = [sharpe_ratio(nets[k], rf, annualise=False) for k in nets]
 
     lines = [
         f"# Backtest evaluation (cost {cost:.0f} bps)",
@@ -143,15 +146,16 @@ def main(config, features_path, cost_bps):
         "",
         "## Performance (full sample, net of cost)",
         "",
-        "| Strategy | Ann. return | Ann. vol | Sharpe | Max DD | Turnover | Deflated Sharpe |",
-        "|----------|-------------|----------|--------|--------|----------|-----------------|",
+        "| Strategy | Ann. return | Ann. vol | Sharpe | Max DD | Calmar | Turnover | Deflated Sharpe |",
+        "|----------|-------------|----------|--------|--------|--------|----------|-----------------|",
     ]
     for name in nets:
-        s = rows[name]
-        dsr = deflated_sharpe_ratio(nets[name].reindex(common), trial_sharpes, rf)
+        m = rows[name]
+        dsr = deflated_sharpe_ratio(nets[name], trial_sharpes, rf)
+        calmar = m["ann_return"] / m["max_drawdown"] if m["max_drawdown"] > 0 else float("nan")
         lines.append(
-            f"| {pretty(name)} | {s['ann_return']*100:.1f}% | {s['ann_vol']*100:.1f}% | "
-            f"{s['sharpe']:.2f} | {s['max_drawdown']*100:.1f}% | {s['ann_turnover']:.2f} | {dsr:.2f} |"
+            f"| {pretty(name)} | {m['ann_return']*100:.1f}% | {m['ann_vol']*100:.1f}% | "
+            f"{m['sharpe']:.2f} | {m['max_drawdown']*100:.1f}% | {calmar:.2f} | {m['ann_turnover']:.2f} | {dsr:.2f} |"
         )
 
     # stress-window returns
