@@ -1,0 +1,33 @@
+# =============================================================================
+# Allocation configuration (Phase 4)
+# =============================================================================
+
+allocation:
+  assets: [SPY, TLT, LQD, GLD, DBC, BIL]   # BIL is the cash / safe asset
+
+  lookback: 252            # estimation window, ~1 trading year
+  rebalance_every: 21      # scheduled rebalances, ~monthly
+  on_regime_change: true   # also rebalance the day the regime label changes
+
+  # Constraints
+  w_max: 1.0               # per-asset cap (1.0 = uncapped)
+  turnover_penalty: 0.0    # quadratic penalty on moving away from prev weights
+
+  # Mean-variance
+  risk_aversion: 10.0
+  mean_shrinkage: 0.5      # 0 = raw sample mean, 1 = minimum variance
+
+  # CVaR (crisis objective)
+  cvar_beta: 0.95          # worst 5% tail
+
+  # HRP
+  hrp_linkage: "single"
+
+  # Regime -> objective (the core of the regime-switching strategy)
+  regime_map:
+    calm: "mean_variance"
+    volatile: "risk_parity"
+    crisis: "min_cvar"
+
+  # Static, regime-blind baselines to also produce
+  baselines: [equal_weight, mean_variance, risk_parity, hrp, min_cvar]

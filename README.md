@@ -22,8 +22,8 @@ regime-portfolio/
 │   │   ├── clean.py            # Validation, missingness, inception handling
 │   │   ├── features.py         # Causal feature computation
 │   │   └── pipeline.py         # Pipeline orchestration
-│   ├── detection/              # Phase 3: regime detection (stub)
-│   ├── allocation/             # Phase 4: portfolio allocation (stub)
+│   ├── detection/              # Phase 3: regime detection
+│   ├── allocation/             # Phase 4: regime-conditioned allocation
 │   ├── backtest/               # Phase 5: walk-forward testing (stub)
 │   └── utils/
 │       ├── logging.py          # Logging setup
@@ -197,12 +197,34 @@ Key design points:
 
 On the cross-asset basket the crisis regime concentrates in the 2008, 2020 and 2022 stress periods, far above the calm-period baseline, and the regimes are persistent rather than rapidly switching. The detectors differ in character as expected: the HMM is the most reactive, the jump model the most persistent, and change-point the most assumption-light.
 
+## Regime-conditioned allocation (Phase 4)
+
+Phase 4 turns the regime labels into portfolio weights. Following the project's methodological direction, the allocation *objective* changes with the regime rather than staying fixed: variance is a reasonable risk measure when returns are roughly symmetric, but it understates the fat-tailed losses of a crisis, where a tail measure fits better.
+
+Five allocators share one `Allocator` interface, all long-only and fully invested (weights are non-negative and sum to one, so the BIL cash holding absorbs any de-risking):
+
+- **Mean-variance** — the Markowitz QP, with Ledoit-Wolf shrinkage covariance and a shrunk mean (a minimum-variance mode drops the mean term entirely).
+- **Risk parity** — equal risk contribution, solved by coordinate descent; uses no expected-return estimate.
+- **Minimum-CVaR** — the Rockafellar-Uryasev tail-risk linear program at the 95% level; this is the crisis objective.
+- **HRP** — hierarchical risk parity (López de Prado), a regime-blind robustness benchmark.
+- **Equal weight** — the 1/N baseline.
+
+The `RegimeSwitchingAllocator` dispatches by regime: mean-variance in calm, risk parity in volatile, minimum-CVaR in crisis. A causal walk-forward loop re-estimates on a trailing window at each monthly rebalance (and on a regime change) and holds the weights in between, so the weight on day t uses only returns up to t.
+
+```bash
+python scripts/run_allocation.py --regimes hmm          # switch on the HMM labels
+python scripts/run_allocation.py --regimes jump --no-baselines
+```
+
+Outputs go to `data/processed/weights_*.parquet` and `reports/allocation/`. On the cross-asset basket the strategy behaves as intended: in calm it runs about 47% equities, in volatile it cuts equity and moves toward cash, and in crisis it holds almost entirely cash. The static minimum-CVaR baseline collapses to cash in every period, which is exactly why CVaR is used only as the crisis objective and not as a standalone strategy.
+
+Each optimiser is written from its primal form with scipy (HiGHS for the CVaR LP, SLSQP for the mean-variance QP, coordinate descent for risk parity, scipy hierarchy for HRP), so there is no extra solver dependency and the formulation stays explicit. The weight series stops here; turning weights into returns, costs and risk-adjusted performance is Phase 5.
+
 ## Later phases
 
-- **Phase 4:** a regime-conditioned allocation layer (mean-variance, risk parity, CVaR under crisis).
-- **Phase 5:** walk-forward backtesting and evaluation.
+- **Phase 5:** walk-forward backtesting and evaluation. Apply the weights to forward returns with transaction costs, then measure Sharpe ratio and maximum drawdown against the baselines with significance testing (deflated Sharpe, probability of backtest overfitting).
 
-Stub modules sit at `src/regime/allocation/` and `src/regime/backtest/`.
+A stub module sits at `src/regime/backtest/`.
 
 ## Reproducibility
 
