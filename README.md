@@ -24,7 +24,7 @@ regime-portfolio/
 │   │   └── pipeline.py         # Pipeline orchestration
 │   ├── detection/              # Phase 3: regime detection
 │   ├── allocation/             # Phase 4: regime-conditioned allocation
-│   ├── backtest/               # Phase 5: walk-forward testing (stub)
+│   ├── backtest/               # Phase 5: walk-forward backtest + evaluation
 │   └── utils/
 │       ├── logging.py          # Logging setup
 │       └── io.py               # Parquet I/O and caching
@@ -220,11 +220,32 @@ Outputs go to `data/processed/weights_*.parquet` and `reports/allocation/`. On t
 
 Each optimiser is written from its primal form with scipy (HiGHS for the CVaR LP, SLSQP for the mean-variance QP, coordinate descent for risk parity, scipy hierarchy for HRP), so there is no extra solver dependency and the formulation stays explicit. The weight series stops here; turning weights into returns, costs and risk-adjusted performance is Phase 5.
 
-## Later phases
+## Backtest and evaluation (Phase 5)
 
-- **Phase 5:** walk-forward backtesting and evaluation. Apply the weights to forward returns with transaction costs, then measure Sharpe ratio and maximum drawdown against the baselines with significance testing (deflated Sharpe, probability of backtest overfitting).
+Phase 5 turns the weight series into a realised, net-of-cost track record and scores it. The timing is causal: the weights recorded on day t are decided from data up to t and only put to work on day t+1, so no return is earned on information that was not yet available. Rebalancing is charged a proportional transaction cost on turnover.
 
-A stub module sits at `src/regime/backtest/`.
+```bash
+python scripts/run_backtest.py                 # backtests every weights_*.parquet
+python scripts/run_backtest.py --cost-bps 20   # sensitivity at a different cost
+```
+
+It backtests every weight series in `data/processed/` (the regime-switching strategy on each detector, plus the static baselines), and reports annualised return, volatility, Sharpe ratio, maximum drawdown and turnover over the full sample and within the 2008, 2020 and 2022 stress windows. Significance is assessed with the deflated Sharpe ratio and the probability of backtest overfitting (CSCV), and a cost sweep shows how the edge erodes with trading cost. Outputs go to `reports/backtest/report.md` and `reports/figures/{equity_curves,drawdowns}.png`.
+
+Two points on reading the significance numbers:
+
+- **Deflated Sharpe ratio** is the probability that a strategy's Sharpe beats the expected best of all the configurations tried, computed on excess (over-cash) returns so a near-cash strategy is not flattered.
+- **PBO** is low when the ranking of strategies is stable in and out of sample. It is most informative over a hyperparameter grid of one strategy; across structurally different strategies (as here) a low value mainly confirms the ranking persists rather than being an artefact of the split.
+
+On the cross-asset basket the regime-switching strategies cut the maximum drawdown to roughly 12-14% against equal weight's 20%, while matching or beating its Sharpe, and they lose far less in the 2008 stress window. The edge is partly eaten by turnover, so it is strongest at low trading costs.
+
+To evaluate all three detectors, generate their weights first:
+
+```bash
+python scripts/run_allocation.py --regimes hmm
+python scripts/run_allocation.py --regimes jump --no-baselines
+python scripts/run_allocation.py --regimes changepoint --no-baselines
+python scripts/run_backtest.py
+```
 
 ## Reproducibility
 
